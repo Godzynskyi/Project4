@@ -1,0 +1,27 @@
+        String query = "";
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(query);
+
+            ps.executeQuery();
+
+        } catch (SQLException e) {
+            logger.error(e);
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    logger.error(e);
+                }
+            }
+        }
+
+
+
+        if (i != 0) {
+                        ResultSet generatedKeys = ps.getGeneratedKeys();
+                        if (generatedKeys.next()) {
+                            return generatedKeys.getInt(1);
+                        }
+                    }
