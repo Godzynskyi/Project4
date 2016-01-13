@@ -9,28 +9,35 @@
 </head>
 <body>
 
-  <%@include file="menu-user.jspx"%>
+  <%@include file="menu_user.jsp"%>
 
-  <c:if test="${message ne null}">
-    <div class="message">${message}</div>
-  </c:if>
-  <c:if test="${error ne null}">
-    <div class="error">${error}</div>
-  </c:if>
   <div style="overflow-x:auto;">
 <table>
+    <tr>
+      <th></th>
+      <th>Model</th>
+      <th>Engine</th>
+      <th>Expenditure</th>
+      <th>Year</th>
+      <th>Color</th>
+      <th>Transmission</th>
+      <th>Price</th>
+      <th>Description</th>
+    </tr>
   <c:forEach items="${cars}" var="car">
     <tr>
       <td><a href="/page/car?id=${car.id}">Get CAR</a></td>
-      <td>${car.model.brand} ${car.model.model}</td>
+      <td>${car.model}</td>
       <td>${car.engine}</td>
+      <td>${car.expenditure}</td>
+      <td>${car.year}</td>
+      <td>${car.color}</td>
       <td>
-        <c:forEach items="${car.options}" var="option">
-          <table>
-            <tr>${option}</tr>
-          </table>
-        </c:forEach>
+        <c:if test="${car.automat}" var="AUTOMAT">AUTOMAT</c:if>
+        <c:if test="${car.automat eq false}" var="MANUAL">MANUAL</c:if>
       </td>
+      <td>${car.price}</td>
+      <td>${car.description}</td>
     </tr>
   </c:forEach>
 </table>

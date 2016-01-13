@@ -2,15 +2,13 @@ package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.controller.Command;
-import com.godzynskyi.entity.Defect;
-import com.godzynskyi.factory.DAOFactory;
+import com.godzynskyi.model.Defect;
+import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.util.CalendarUtil;
 import org.apache.log4j.Logger;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Calendar;
 
 @RequestMapper("/admin/confirm_returning")
@@ -19,8 +17,7 @@ public class CommandConfirmReturningCar implements Command {
     private static final Logger logger = Logger.getLogger(CommandConfirmReturningCar.class);
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String price = request.getParameter("price");
         String carId = request.getParameter("carId");
         String clientId = request.getParameter("clientId");

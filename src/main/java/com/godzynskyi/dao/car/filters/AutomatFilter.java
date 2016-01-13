@@ -1,6 +1,6 @@
 package com.godzynskyi.dao.car.filters;
 
-import com.godzynskyi.entity.Car;
+import com.godzynskyi.model.Car;
 
 /**
  * Created by Java Developer on 24.11.2015.

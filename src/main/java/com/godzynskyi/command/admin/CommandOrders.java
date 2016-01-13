@@ -2,17 +2,15 @@ package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.controller.Command;
-import com.godzynskyi.daoOld.order.filters.AdminFilter;
-import com.godzynskyi.daoOld.order.filters.CarFilter;
-import com.godzynskyi.daoOld.order.filters.NoAdminFilter;
-import com.godzynskyi.daoOld.order.filters.OrderFilter;
-import com.godzynskyi.entity.Order;
-import com.godzynskyi.factory.DAOFactory;
+import com.godzynskyi.dao.order.filters.AdminFilter;
+import com.godzynskyi.dao.order.filters.CarFilter;
+import com.godzynskyi.dao.order.filters.NoAdminFilter;
+import com.godzynskyi.dao.order.filters.OrderFilter;
+import com.godzynskyi.model.Order;
+import com.godzynskyi.dao.DAOFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ import java.util.List;
 @RequestMapper("/admin/orders")
 public class CommandOrders implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<OrderFilter> orderFilters = new ArrayList<>();
 
         // Add Admin Filter

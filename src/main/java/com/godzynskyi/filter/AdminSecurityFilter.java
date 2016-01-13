@@ -1,18 +1,13 @@
 package com.godzynskyi.filter;
 
-import com.godzynskyi.factory.DAOFactory;
-import com.godzynskyi.factory.ServiceFactory;
+import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.properties.Config;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 /**
  * Created by Java Developer on 05.12.2015.

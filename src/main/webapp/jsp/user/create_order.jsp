@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<%@include file="menu-user.jspx"%>
+<%@include file="menu_user.jsp"%>
+<c:set var="order" value="${sessionScope.get(order)}"/>
 
 <form action="/page/create_order_handler" method="post">
   Start of rent:
@@ -18,13 +19,13 @@
   <input type="date" name="date_to">*
   <br>
   First name:
-  <input type="text" name="firstname">
+  <input type="text" name="firstname" value="${order.client.firstName}">
   <br>
   Last name:
-  <input type="text" name="lastname">
+  <input type="text" name="lastname" value="${order.client.lastName}">
   <br>
   Phone:
-  <input type="text" name="phone">*
+  <input type="text" name="phone" value="${order.client.phone}">*
   <br>
   Email:
   <input type="text" name="email">
@@ -39,26 +40,24 @@
 
   <br><br>
 
-  <label><input type="checkbox" name="delivery_to">I want your company deliver me a car.</label>
-  <div>
-    Time: <br>
-    <input type="time" name="delivery_to_time">
-    <br> Address: <br>
-    <textarea name="address_to" rows="10" cols="30"></textarea>
-  </div>
-
-  <br>
-  <label><input type="checkbox" name="delivery_from">I want your company deliver the car to your office from me.</label>
-  <div>
-    Time: <br>
-    <input type="time" name="delivery_from_time">
-    <br> Address: <br>
-    <textarea name="address_from" rows="10" cols="30"></textarea>
-  </div>
-
   <input type="hidden" name="carId" value="${carId}">
   <input type="submit" value="Get Price">
 </form>
 
+You can see free time of the car on the calendar below.
+
+<link href="${pageContext.request.contextPath}/calendar/availability-calendar.css" rel="stylesheet" type="text/css">
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<div id="calendar"></div>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="${pageContext.request.contextPath}/calendar/availability-calendar.js"></script>
+<script>
+  var unavailableDates = [
+    <c:forEach var="date" items="${reservedDates}">
+    {start: '${date.startString}', end: '${date.endString}'},
+    </c:forEach>
+  ];
+  $('#calendar').availabilityCalendar(unavailableDates);
+</script>
 </body>
 </html>

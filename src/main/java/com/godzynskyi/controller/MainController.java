@@ -1,5 +1,7 @@
 package com.godzynskyi.controller;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,34 +15,26 @@ import java.io.IOException;
  */
 @WebServlet("/page/*")
 public class MainController extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(MainController.class);
     RequestHelper requestHelper = RequestHelper.getInstance();
 
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
-
         processRequest(req, resp);
-
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req,
+                         HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
 
-        try {
-//определение команды, пришедшей из JSP
-            Command command = requestHelper.getCommand(request);
-            page = command.execute(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-            //TODO
-        } catch (IOException e) {
-            e.printStackTrace();
-            //TODO
-        }
+        //определение команды, пришедшей из JSP
+        Command command = requestHelper.getCommand(request);
+        page = command.execute(request, response);
 
         RequestDispatcher dispatcher =
                 getServletContext().getRequestDispatcher("/jsp/" + page + ".jsp");

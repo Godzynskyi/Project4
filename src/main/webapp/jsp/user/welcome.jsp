@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<%@include file="menu-user.jspx"%>
+<%@include file="menu_user.jsp"%>
 
 </body>
 </html>

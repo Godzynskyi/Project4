@@ -6,6 +6,6 @@ package com.godzynskyi.dao.order.filters;
 public class NoAdminFilter implements OrderFilter {
     @Override
     public String stringPattern() {
-        return "admin_id is null";
+        return "admin_login is null";
     }
 }

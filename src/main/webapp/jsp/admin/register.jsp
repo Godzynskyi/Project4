@@ -8,14 +8,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<%@include file="menu_admin.jspx"%>
+<%@include file="menu_admin.jsp"%>
 
-<c:if test="${message ne null}">
-    <div class="message">${message}</div>
-</c:if>
-<c:if test="${error ne null}">
-    <div class="error">${error}</div>
-</c:if>
 <br>
 <form action="/page/admin/register" method="post">
     Enter login of new Admin: <input type="text" name="login"> <br>

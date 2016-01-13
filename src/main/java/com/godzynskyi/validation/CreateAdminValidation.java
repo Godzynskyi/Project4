@@ -1,7 +1,5 @@
 package com.godzynskyi.validation;
 
-import com.godzynskyi.factory.ServiceFactory;
-import com.godzynskyi.properties.Config;
 import com.godzynskyi.properties.Message;
 
 /**
@@ -24,19 +22,19 @@ public class CreateAdminValidation {
 
         if (login == null || password1 == null || password2 == null || firstname == null || lastname == null) {
             result.valid = false;
-            result.error += Message.getInstance().getProperty(Message.NOT_ALL_PARAMETERS) + "\r\n";
+            result.error += Message.get(Message.NOT_ALL_PARAMETERS) + "\r\n";
         }
 
         if (!password1.equals(password2)) {
             result.valid = false;
-            result.error += Message.getInstance().getProperty(Message.PASSWORDS_ARE_NOT_EQUALS) + "\r\n";
+            result.error += Message.get(Message.PASSWORDS_ARE_NOT_EQUALS) + "\r\n";
         }
 
-        if (ServiceFactory.adminService().isAdminExist(login)) {
-            result.valid = false;
-            result.error += Message.getInstance().getProperty(Message.ADMIN_IS_EXIST);
-
-        }
+//        if (DAOFactory.adminDAO().isAdminExist(login)) {
+//            result.valid = false;
+//            result.error += Message.getInstance().getProperty(Message.ADMIN_IS_EXIST);
+//
+//        }
 
         return result;
     }

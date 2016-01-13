@@ -2,16 +2,14 @@ package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.controller.Command;
-import com.godzynskyi.daoOld.AdminDAO;
-import com.godzynskyi.entity.Admin;
-import com.godzynskyi.factory.DAOFactory;
+import com.godzynskyi.dao.AdminDAO;
+import com.godzynskyi.model.Admin;
+import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.properties.Message;
 import com.godzynskyi.validation.CreateAdminValidation;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Created by Java Developer on 05.12.2015.
@@ -19,7 +17,7 @@ import java.io.IOException;
 @RequestMapper("/admin/register")
 public class CommandRegister implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String firstName = request.getParameter("firstname");
         String lastName = request.getParameter("lastname");
@@ -36,12 +34,15 @@ public class CommandRegister implements Command {
                     admin.setPassword(password1);
                     admin.setFirstName(firstName);
                     admin.setLastName(lastName);
-                    boolean isAdded = DAOFactory.adminDAO().addAdmin(admin);
-                    if (isAdded) {
-                        String message = Message.getInstance().getProperty(Message.ADMIN_SUCCESSFULLY_ADDED);
+                    int res = DAOFactory.adminDAO().addAdmin(admin);
+                    if (res == 1) {
+                        String message = Message.get(Message.ADMIN_SUCCESSFULLY_ADDED);
                         request.setAttribute("message", message);
-                    } else {
-                        String error = Message.getInstance().getProperty(Message.SQL_EXCEPTION);
+                    } else if (res == -1) {
+                        String error = Message.get(Message.SQL_EXCEPTION);
+                        request.setAttribute("error", error);
+                    } else if (res == 0) {
+                        String error = Message.get(Message.ADMIN_IS_EXIST);
                         request.setAttribute("error", error);
                     }
                 } else {

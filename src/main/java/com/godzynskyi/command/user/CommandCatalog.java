@@ -2,17 +2,15 @@ package com.godzynskyi.command.user;
 
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.controller.Command;
-import com.godzynskyi.daoOld.car.filters.AutomatFilter;
-import com.godzynskyi.daoOld.car.filters.CarFilter;
-import com.godzynskyi.daoOld.car.filters.EngineFilter;
-import com.godzynskyi.daoOld.car.filters.YearFilter;
-import com.godzynskyi.entity.Car;
-import com.godzynskyi.factory.DAOFactory;
+import com.godzynskyi.dao.car.filters.AutomatFilter;
+import com.godzynskyi.dao.car.filters.CarFilter;
+import com.godzynskyi.dao.car.filters.EngineFilter;
+import com.godzynskyi.dao.car.filters.YearFilter;
+import com.godzynskyi.model.Car;
+import com.godzynskyi.dao.DAOFactory;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ import java.util.List;
 @RequestMapper("/catalog")
 public class CommandCatalog implements Command {
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         List<CarFilter> filterList = new LinkedList<>();
 

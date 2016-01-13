@@ -4,11 +4,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>asdf</title>
-    <link rel="stylesheet" href="/css/main.css"/>
+    <title>Car Rent</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<%@include file="/jsp/user/menu-user.jspx"%>
+<%@include file="/jsp/user/menu_user.jsp"%>
 
+<h1>This is the Main Page</h1>
 </body>
 </html>
