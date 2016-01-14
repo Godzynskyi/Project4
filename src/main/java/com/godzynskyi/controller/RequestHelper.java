@@ -17,9 +17,7 @@ public class RequestHelper {
 
 
     private RequestHelper() {
-        String pack = Config.getInstance().getProperty(Config.CONTROLLERS_PACKAGE);
-        String pref = Config.getInstance().getProperty(Config.SERVLET_PREFIX);
-        commands = new AnnotationCommands().putCommandsToMap(pack,pref);
+        commands = new AnnotationCommands().putCommandsToMap("com.godzynskyi.command", "/page");
         logger.debug("Commands: " + commands);
     }
 

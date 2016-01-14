@@ -18,10 +18,7 @@ public class ConnectionPool {
 
     private ConnectionPool(int CAPACITY) {
         this.CAPACITY = CAPACITY;
-        connections = new ArrayList<Connection>();
-//        while (connections.size() < CAPACITY) {
-//            connections.add(createConnection());
-//        }
+        connections = new ArrayList<>();
     }
 
     private Connection createConnection() {
@@ -34,15 +31,13 @@ public class ConnectionPool {
      * or new Connection if there are no free connections in the pool.
      */
     Connection getConnection() {
-        Connection res = null;
         while (true) {
             if (connections.size() == 0) {
-                res = createConnection();
-                return res;
+                return createConnection();
             }
             synchronized (this) {
                 if (connections.size() > 0) {
-                    res = connections.get(0);
+                    Connection res = connections.get(0);
                     connections.remove(0);
                     return res;
                 }

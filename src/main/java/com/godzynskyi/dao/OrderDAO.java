@@ -5,6 +5,7 @@ import com.godzynskyi.dao.order.filters.OrderFilter;
 import com.godzynskyi.model.Car;
 import com.godzynskyi.model.Client;
 import com.godzynskyi.model.Order;
+import com.godzynskyi.properties.SQLQueries;
 import com.godzynskyi.util.CalendarUtil;
 import com.godzynskyi.data.source.DBFactory;
 import org.apache.log4j.Logger;
@@ -18,40 +19,15 @@ import java.util.*;
  */
 public class OrderDAO {
     private static final Logger logger = Logger.getLogger(OrderDAO.class);
-    private static final String getOrdersFilterQuery = "SELECT _order.id, admin_login, client_id, start_date, end_date, " +
-            "details, child_chair, gps, car.id, car.model, " +
-            "_order.total_price, _order.status " +
-            "FROM _order " +
-            "inner join car on car.id = _order.car_id " +
-            "where _order.status != 3 and ";
-    private static final String getOrderByIdQuery =
-            "SELECT admin_login, start_date, end_date, details, child_chair, " +
-                    "gps, client.id, client.email, client.firstname, client.lastname, " +
-                    "client.phone, car.id, car.model, _order.total_price, status " +
-                    "FROM _order " +
-                    "inner JOIN car on car.id = _order.car_id " +
-                    "inner join client on client.id = _order.client_id " +
-                    "where _order.id = ?";
-    private static final String addOrderQuery =
-            "insert into _order " +
-                    "(admin_login, client_id, car_id, start_date, end_date, " +
-                    "details, child_chair, gps, total_price) " +
-                    "VALUES (?,?,?,?,?,?,?,?,?)";
-    private static final String updateOrderQuery = "update _order " +
-            "set admin_login = ?, car_id=?, start_date = ?, end_date = ?, details = ?, child_chair = ?, gps = ? " +
-            "WHERE id = ?";
-    private static final String isAvailableDateForCarQuery =
-            "SELECT id FROM _order " +
-                    "where car_id = ? and start_date < ? and end_date > ? limit 1";
-    private static final String changeOrderStatusQuery =
-            "UPDATE _order set status = ? where id = ?";
-    private static final String getBlockedDatesQuery =
-            "SELECT start_date, end_date " +
-                    "from _order " +
-                    "where _order.car_id = ? " +
-                    "and end_date>= ? and start_date <= ?";
-    private static final String changeAdminOfOrderQuery = "UPDATE _order SET admin_login = ? WHERE id = ?";
-    private static final String deleteOrderQuery = "DELETE FROM _order where id = ?";
+    private static final String getOrdersFilterQuery = SQLQueries.orderQuery("GET_ORDERS_FILTER_QUERY");
+    private static final String getOrderByIdQuery = SQLQueries.orderQuery("GET_ORDER_BY_ID_QUERY");
+    private static final String addOrderQuery = SQLQueries.orderQuery("ADD_ORDER_QUERY");
+    private static final String updateOrderQuery = SQLQueries.orderQuery("UPDATE_ORDER_QUERY");
+    private static final String isAvailableDateForCarQuery = SQLQueries.orderQuery("IS_AVAILABLE_DATE_FOR_CAR_QUERY");
+    private static final String changeOrderStatusQuery = SQLQueries.orderQuery("CHANGE_ORDER_STATUS_QUERY");
+    private static final String getBlockedDatesQuery = SQLQueries.orderQuery("GET_BLOCKED_DATES_QUERY");
+    private static final String changeAdminOfOrderQuery = SQLQueries.orderQuery("CHANGE_ADMIN_OF_ORDER_QUERY");
+    private static final String deleteOrderQuery = SQLQueries.orderQuery("DELETE_ORDER_QUERY");
 
     protected OrderDAO() {}
 

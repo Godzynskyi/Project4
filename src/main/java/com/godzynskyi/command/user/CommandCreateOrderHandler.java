@@ -108,8 +108,8 @@ public class CommandCreateOrderHandler implements Command {
 
         int daysOfRent = (int) ((toDate.getTimeInMillis()- fromDate.getTimeInMillis()) / (1000*60*60*24));
         int price = car.getPrice() * daysOfRent;
-        if (gps != null) price += Integer.parseInt(Config.getInstance().getProperty(Config.GPS_PRICE));
-        if (childChair != null) price += Integer.parseInt(Config.getInstance().getProperty(Config.CHILD_CHAIR_PRICE));
+        if (gps != null) price += Integer.parseInt(Config.getProperty(Config.GPS_PRICE));
+        if (childChair != null) price += Integer.parseInt(Config.getProperty(Config.CHILD_CHAIR_PRICE));
 
 
         order.setAdmin(null);

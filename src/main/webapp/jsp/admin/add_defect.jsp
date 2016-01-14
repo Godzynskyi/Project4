@@ -11,10 +11,16 @@
 <body>
 <%@include file="menu_admin.jsp"%>
 
-<form action="/page/admin/add_defect_handler" method="post">
-  <input type="hidden" name="orderId" value="${requestScope.get("orderId")}">
-  <input type="text" name
+<h1>Add defect:</h1>
 
+<form action="/page/admin/add_defect_handler" method="post">
+  <input type="hidden" name="order_id" value="${param.orderId}">
+  <textarea name="description" placeholder="Description"></textarea><br>
+  <%--<input type="text" name="description" placeholder="Description"><br>--%>
+  <input type="text" name="price" placeholder="Price"><br>
+  <input type="date" name="date" placeholder="Occurrence date"><br>
+  <input type="submit" name="submit" value="Submit"><br>
+  <input type="submit" name="submit" value="Cancel"><br>
 </form>
 
 </body>

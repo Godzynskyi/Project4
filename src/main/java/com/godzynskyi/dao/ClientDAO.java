@@ -2,6 +2,7 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.model.Client;
 import com.godzynskyi.data.source.DBFactory;
+import com.godzynskyi.properties.SQLQueries;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -12,13 +13,8 @@ import java.sql.*;
 public class ClientDAO {
     private static final Logger logger = Logger.getLogger(ClientDAO.class);
 
-    private static final String addClientQuery =
-            "INSERT INTO client " +
-                    "(email, firstname, lastname, phone) VALUES (?,?,?,?)";
-    private static final String updateClientQuery =
-            "update client " +
-                    "set email = ?, phone = ?, firstname = ?, lastname = ? " +
-                    "WHERE id = ?";
+    private static final String addClientQuery = SQLQueries.clientQuery("ADD_CLIENT_QUERY");
+    private static final String updateClientQuery = SQLQueries.clientQuery("UPDATE_CLIENT_QUERY");
 
     protected ClientDAO() {}
 

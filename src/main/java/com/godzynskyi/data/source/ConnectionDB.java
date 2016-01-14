@@ -1,39 +1,32 @@
 package com.godzynskyi.data.source;
 
-import com.godzynskyi.properties.DataSource;
+import org.apache.log4j.Logger;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 /**
  * Created by Java Developer on 21.11.2015.
  */
 public class ConnectionDB {
-
-    private static String DB_DRIVER = DataSource.getInstance().getProperty(DataSource.DB_DRIVER);
-    private static String DB_CONNECTION = DataSource.getInstance().getProperty(DataSource.DB_CONNECTION);
-    private static String DB_USER = DataSource.getInstance().getProperty(DataSource.DB_USER);
-    private static String DB_PASSWORD = DataSource.getInstance().getProperty(DataSource.DB_PASSWORD);
+    private static final Logger logger = Logger.getLogger(ConnectionDB.class);
 
     static Connection createDBConnection() {
-        Connection dbConnection = null;
 
         try {
-            Class.forName(DB_DRIVER);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        try {
-            dbConnection = DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
+            InitialContext initialContext = new InitialContext();
+            DataSource ds = (DataSource) initialContext.lookup("java:comp/env/jdbc/cars");
+            Connection dbConnection = ds.getConnection();
+            return new MyConnection(dbConnection);
+        } catch (NamingException e) {
+            logger.error(e);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            logger.error(e);
         }
-
-        return new MyConnection(dbConnection);
+        return null;
     }
 
 }

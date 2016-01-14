@@ -21,7 +21,7 @@ public class ConfirmedOrderState implements OrderState {
     public String changeState(HttpServletRequest request, HttpServletResponse response) {
 
         Order order = (Order) request.getAttribute("order");
-        List<String> defectList = DAOFactory.defectDAO().getDefectsOfCar(order.getCar().getId());
+        List<String> defectList = DAOFactory.defectDAO().getDescriptionsOfNotRepairedDefectsOfCar(order.getCar().getId());
 
         request.setAttribute("defectList", defectList);
 

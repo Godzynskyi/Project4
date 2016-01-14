@@ -27,7 +27,8 @@ if you see new defects, required to add last.
 </form>
 
 <form action="/page/admin/confirm_return_car" method="post">
-    <input type="hidden" name="orderId" value="${order.id}">
+    <input type="hidden" name="order_id" value="${order.id}">
+    <input type="hidden" name="car_id" value="${order.car.id}">
     <input type="submit" value="Get car from Rent">
 </form>
 

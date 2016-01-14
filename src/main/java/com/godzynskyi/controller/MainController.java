@@ -13,7 +13,6 @@ import java.io.IOException;
 /**
  * Created by Java Developer on 21.11.2015.
  */
-@WebServlet("/page/*")
 public class MainController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(MainController.class);
     RequestHelper requestHelper = RequestHelper.getInstance();

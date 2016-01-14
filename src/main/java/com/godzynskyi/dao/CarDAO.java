@@ -3,6 +3,7 @@ package com.godzynskyi.dao;
 import com.godzynskyi.dao.car.filters.CarFilter;
 import com.godzynskyi.model.Car;
 import com.godzynskyi.data.source.DBFactory;
+import com.godzynskyi.properties.SQLQueries;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -14,14 +15,12 @@ import java.util.List;
  */
 public class CarDAO {
     private static final Logger logger = Logger.getLogger(CarDAO.class);
-    private static final String addCarQuery =
-            "INSERT INTO car " +
-            "(model, year, color, engine, expenditure, automat, price, description) " +
-            "VALUES (?,?,?,?,?,?,?,?)";
-    private static final String getCarByIdQuery =
-            "SELECT * FROM car where id = ?";
+
+    private static final String addCarQuery = SQLQueries.carQuery("ADD_CAR_QUERY");
+    private static final String getCarByIdQuery = SQLQueries.carQuery("GET_CAR_BY_ID");
 
     protected CarDAO() {}
+
     /**
      * Adding car to DB.
      *

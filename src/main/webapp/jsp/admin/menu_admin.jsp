@@ -12,6 +12,9 @@
                 <a href="/page/admin/register">Register new Employee</a>
             </td>
             <td>
+                <a href="/page/admin/repair">Repair car</a>
+            </td>
+            <td>
                 <a href="/page/admin/orders?admin=null">Free orders</a>
             </td>
             <td>

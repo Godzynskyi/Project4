@@ -2,6 +2,8 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.model.Defect;
 import com.godzynskyi.data.source.DBFactory;
+import com.godzynskyi.properties.SQLQueries;
+import com.godzynskyi.util.CalendarUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -13,12 +15,12 @@ import java.util.List;
  */
 public class DefectDAO {
     private static final Logger logger = Logger.getLogger(DefectDAO.class);
-    private static final String addDefectQuery =
-            "INSERT INTO defect " +
-            "(client_id, description, client_price, occurrence, car_id) " +
-            "VALUES (?,?,?,?,?)";
-    private static final String getDefectsOfCarQuery =
-            "SELECT description FROM defect WHERE car_id = ?";
+    private static final String addDefectQuery = SQLQueries.defectQuery("ADD_DEFECT_QUERY");
+    private static final String getDescriptionsOfNotRepairedDefectsOfCarQuery = SQLQueries.defectQuery("GET_DESCRIPTIONS_OF_NOT_REPAIRED_DEFECTS_OF_CAR_QUERY");
+    private static final String getNotPaidDefectsOfCarQuery = SQLQueries.defectQuery("GET_NOT_PAID_DEFECTS_OF_CAR_QUERY");
+    private static final String paidForOrdersDefectsQuery = SQLQueries.defectQuery("PAID_FOR_ORDERS_DEFECT_QUERY");
+    private static final String getNotRepairedDefectsOfCarQuery = SQLQueries.defectQuery("GET_NOT_REPAIRED_DEFECTS_OF_CAR_QUERY");
+    private static final String repairDefectQuery = SQLQueries.defectQuery("REPAIR_DEFECT_QUERY");
 
     protected DefectDAO() {}
 
@@ -29,8 +31,9 @@ public class DefectDAO {
             ps.setInt(1, defect.getClientId());
             ps.setString(2, defect.getDescription());
             ps.setFloat(3, defect.getPriceForClient());
-            ps.setDate(4, new Date(defect.getDate().getTime()));
+            ps.setString(4, CalendarUtil.getDateString(defect.getDate()));
             ps.setInt(5, defect.getCarId());
+            ps.setBoolean(6, defect.isPaid());
             int i = ps.executeUpdate();
             return (i==1);
         } catch (SQLException e) {
@@ -39,10 +42,10 @@ public class DefectDAO {
         return false;
     }
 
-    public List<String> getDefectsOfCar(int carId) {
+    public List<String> getDescriptionsOfNotRepairedDefectsOfCar(int carId) {
         List<String> result = new ArrayList<>();
         try (Connection c = DBFactory.getDBConnection();
-            PreparedStatement ps = c.prepareStatement(getDefectsOfCarQuery)) {
+            PreparedStatement ps = c.prepareStatement(getDescriptionsOfNotRepairedDefectsOfCarQuery)) {
 
             ps.setInt(1, carId);
 
@@ -56,4 +59,76 @@ public class DefectDAO {
         return result;
     }
 
+
+    public List<Defect> getNotPaidDefectsOfCar(int carId) {
+        List<Defect> res = new ArrayList<>();
+        try (Connection c = DBFactory.getDBConnection();
+            PreparedStatement ps = c.prepareStatement(getNotPaidDefectsOfCarQuery)) {
+            ps.setInt(1, carId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Defect defect = Defect.getBuilder()
+                        .setCarId(carId)
+                        .setClientId(rs.getInt("client_id"))
+                        .setDescription(rs.getString("description"))
+                        .setPriceForClient(rs.getFloat("client_price"))
+                        .setDate(CalendarUtil.getCalendar(rs.getString("occurrence_date")))
+                        .setPaid(false)
+                        .build();
+                res.add(defect);
+            }
+            return res;
+        } catch (SQLException e) {
+            logger.error(e);
+            return res;
+        }
+    }
+
+    public boolean paidForOrdersDefects(int orderId) {
+        try (Connection c = DBFactory.getDBConnection();
+            PreparedStatement ps = c.prepareStatement(paidForOrdersDefectsQuery)) {
+            ps.setInt(1, orderId);
+            int i = ps.executeUpdate();
+            if (i > 0) return true;
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+        return false;
+    }
+
+    public List<Defect> getNotRepairedDefectsOfCar(int carId) {
+        List<Defect> res = new ArrayList<>();
+        try (Connection c = DBFactory.getDBConnection();
+            PreparedStatement ps = c.prepareStatement(getNotRepairedDefectsOfCarQuery)) {
+            ps.setInt(1, carId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Defect defect = Defect.getBuilder()
+                        .setId(rs.getInt("id"))
+//                        .setCarId(carId)
+//                        .setClientId(rs.getInt("client_id"))
+                        .setDescription(rs.getString("description"))
+                        .setPriceForClient(rs.getFloat("client_price"))
+//                        .setDate(CalendarUtil.getCalendar(rs.getString("occurrence_date")))
+//                        .setPaid(rs.getBoolean("is_paid"))
+                        .build();
+                res.add(defect);
+            }
+            return res;
+        } catch (SQLException e) {
+            logger.error(e);
+            return res;
+        }
+    }
+
+    public void repairDefect(int defectId, String price) {
+        try (Connection c = DBFactory.getDBConnection();
+            PreparedStatement ps = c.prepareStatement(repairDefectQuery)) {
+            ps.setInt(1, defectId);
+            ps.setString(2, price);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            logger.error(e);
+        }
+    }
 }

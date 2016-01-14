@@ -14,6 +14,7 @@ public class CommandLogin implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
+
         String redirect = (String) request.getAttribute("redirect");
         if (redirect == null) request.setAttribute("redirect", "/page/admin/orders");
 

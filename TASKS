@@ -1,7 +1,8 @@
-1 Change all getRequestDispatcher.forward to return new CommandXXX.execute
++ Change all getRequestDispatcher.forward to return new CommandXXX.execute
 2 Send email
-3 Defects
++ Defects
 + DAOFactory remove {} and change constructor to package-private
 5 logger.error -> logger.info for SQL queries.
 6 tables.sql
 7 CommandLogin - save request to session.
++ data.source -> context.xml

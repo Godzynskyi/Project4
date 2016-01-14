@@ -2,6 +2,7 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.model.Admin;
 import com.godzynskyi.data.source.DBFactory;
+import com.godzynskyi.properties.SQLQueries;
 import org.apache.log4j.Logger;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -14,12 +15,9 @@ import java.sql.SQLException;
  * Created by Java Developer on 15.12.2015.
  */
 public class AdminDAO {
-    static String isAdminQuery =
-            "SELECT password FROM admin WHERE login = ?";
-    static String addAdminQuery =
-            "INSERT ignore INTO admin " +
-            "(login, password, firstname, lastname) " +
-            "VALUES (?, ?, ?, ?)";
+
+    static String isAdminQuery = SQLQueries.adminQuery("IS_ADMIN_QUERY");
+    static String addAdminQuery = SQLQueries.adminQuery("ADD_ADMIN_QUERY");
 
     protected AdminDAO() {}
 

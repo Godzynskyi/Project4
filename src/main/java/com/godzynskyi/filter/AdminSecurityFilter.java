@@ -28,7 +28,7 @@ public class AdminSecurityFilter implements Filter {
 
 
         if (!isAdmin) {
-            String LOGIN_PAGE = Config.getInstance().getProperty(Config.LOGIN_PAGE);
+            String LOGIN_PAGE = Config.getProperty(Config.LOGIN_PAGE);
             logger.debug("Redirect to login page.");
 
             request.setAttribute("redirect", httpRequest.getRequestURI());

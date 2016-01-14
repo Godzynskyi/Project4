@@ -1,5 +1,8 @@
 package com.godzynskyi.model;
 
+import com.godzynskyi.util.CalendarUtil;
+
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -7,12 +10,14 @@ import java.util.Date;
  */
 public class Defect {
 
+    int id;
     int carId;
     int clientId;
     String description;
     float priceForClient;
-    Date date = new Date();
+    Calendar date;
     boolean paid; // Has client paid for defect?
+    boolean repaired = false;
 
     private Defect() {}
 
@@ -20,8 +25,12 @@ public class Defect {
         return paid;
     }
 
-    public void setPaid(boolean isPaid) {
-        this.paid = paid;
+    public int getId() {
+        return id;
+    }
+
+    public boolean isRepaired() {
+        return repaired;
     }
 
     public int getCarId() {
@@ -40,7 +49,7 @@ public class Defect {
         return priceForClient;
     }
 
-    public Date getDate() {
+    public Calendar getDate() {
         return date;
     }
 
@@ -52,7 +61,7 @@ public class Defect {
 
         private Builder() {}
 
-        public Builder setcarId(int carId) {
+        public Builder setCarId(int carId) {
             Defect.this.carId = carId;
             return this;
         }
@@ -72,14 +81,30 @@ public class Defect {
             return this;
         }
 
-        public Builder setDate(Date date) {
+        public Builder setDate(Calendar date) {
             Defect.this.date = date;
+            return this;
+        }
+
+        public Builder setPaid(boolean isPaid) {
+            Defect.this.paid = isPaid;
+            return this;
+        }
+
+        public Builder setRepaired(boolean isRepaired) {
+            Defect.this.repaired = isRepaired;
+            return this;
+        }
+
+        public Builder setId(int id) {
+            Defect.this.id = id;
             return this;
         }
 
         public Defect build() {
             return Defect.this;
         }
+
     }
 
     @Override
