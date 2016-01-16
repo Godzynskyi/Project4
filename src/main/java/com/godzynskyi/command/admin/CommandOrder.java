@@ -3,7 +3,7 @@ package com.godzynskyi.command.admin;
 import com.godzynskyi.model.Order;
 import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.controller.RequestHelper;
 
 import javax.servlet.http.HttpServletRequest;

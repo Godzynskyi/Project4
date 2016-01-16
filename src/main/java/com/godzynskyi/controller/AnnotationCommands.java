@@ -2,6 +2,7 @@ package com.godzynskyi.controller;
 
 
 import com.godzynskyi.annotation.RequestMapper;
+import com.godzynskyi.command.Command;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 

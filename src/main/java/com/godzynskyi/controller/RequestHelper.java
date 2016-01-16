@@ -1,6 +1,6 @@
 package com.godzynskyi.controller;
 
-import com.godzynskyi.properties.Config;
+import com.godzynskyi.command.Command;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;

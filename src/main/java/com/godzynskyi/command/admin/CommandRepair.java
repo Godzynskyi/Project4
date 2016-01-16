@@ -1,7 +1,7 @@
 package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.dao.car.filters.CarFilter;
 import com.godzynskyi.model.Car;

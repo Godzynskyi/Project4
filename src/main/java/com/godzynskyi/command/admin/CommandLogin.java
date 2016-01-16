@@ -1,7 +1,7 @@
 package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

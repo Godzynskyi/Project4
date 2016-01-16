@@ -6,3 +6,9 @@
 6 tables.sql
 7 CommandLogin - save request to session.
 + data.source -> context.xml
+9 myTag
+10 InitialContext do singleton and init it one time
+11 catch (Exception) -> catch (SQLException)
+12 log4j.xml
+
+14 english russian

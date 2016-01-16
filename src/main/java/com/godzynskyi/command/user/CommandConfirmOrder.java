@@ -2,7 +2,7 @@ package com.godzynskyi.command.user;
 
 import com.godzynskyi.util.ReservedDatesOfCar;
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.model.Client;
 import com.godzynskyi.model.Order;
 import com.godzynskyi.dao.DAOFactory;

@@ -7,7 +7,7 @@ import com.godzynskyi.model.Order;
 import com.godzynskyi.properties.Message;
 import com.godzynskyi.util.CalendarUtil;
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.controller.RequestHelper;
 import org.apache.log4j.Logger;
 

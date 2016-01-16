@@ -1,5 +1,6 @@
 package com.godzynskyi.controller;
 
+import com.godzynskyi.command.Command;
 import org.junit.Test;
 
 import java.util.Map;

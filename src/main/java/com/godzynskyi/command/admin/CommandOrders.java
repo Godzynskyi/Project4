@@ -1,7 +1,7 @@
 package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.dao.order.filters.AdminFilter;
 import com.godzynskyi.dao.order.filters.CarFilter;
 import com.godzynskyi.dao.order.filters.NoAdminFilter;
@@ -27,7 +27,7 @@ public class CommandOrders implements Command {
         String admin = request.getParameter("admin");
         if (admin == null) admin = (String) request.getSession().getAttribute("admin");
         OrderFilter orderFilter = null;
-        if (!admin.equals("null")) orderFilter = new AdminFilter(admin);
+        if (!"null".equals(admin)) orderFilter = new AdminFilter(admin);
         else orderFilter = new NoAdminFilter();
         orderFilters.add(orderFilter);
 

@@ -1,12 +1,11 @@
 package com.godzynskyi.command.admin;
 
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.controller.RequestHelper;
 import com.godzynskyi.dao.DAOFactory;
 import com.godzynskyi.properties.Message;
 import org.apache.log4j.Logger;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

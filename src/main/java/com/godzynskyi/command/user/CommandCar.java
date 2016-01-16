@@ -1,7 +1,7 @@
 package com.godzynskyi.command.user;
 
 import com.godzynskyi.annotation.RequestMapper;
-import com.godzynskyi.controller.Command;
+import com.godzynskyi.command.Command;
 import com.godzynskyi.model.Car;
 import com.godzynskyi.model.Order;
 import com.godzynskyi.dao.DAOFactory;
