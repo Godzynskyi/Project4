@@ -7,6 +7,9 @@ import java.util.concurrent.Executor;
 
 /**
  * Created by Java Developer on 15.12.2015.
+ *
+ * Wrapper for Connection.
+ * Override method close. It release connection to pool.
  */
 public class MyConnection implements Connection {
     Connection connection;

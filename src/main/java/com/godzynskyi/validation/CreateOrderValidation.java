@@ -56,11 +56,10 @@ public class CreateOrderValidation {
                 result.error += "<br>" + Message.get(Message.FROM_NOT_AFTER_NOW_DATE);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.debug(e);
             result.VALID = false;
             result.error += "<br>" + Message.get(Message.BAD_DATE);
-
         }
 
         return result;

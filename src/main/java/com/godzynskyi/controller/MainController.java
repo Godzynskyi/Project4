@@ -12,11 +12,15 @@ import java.io.IOException;
 
 /**
  * Created by Java Developer on 21.11.2015.
+ *
+ * This is a Main Servlet that handle all requests
+ * and delegate requests to particular Command Class.
  */
 public class MainController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(MainController.class);
     RequestHelper requestHelper = RequestHelper.getInstance();
 
+    @Override
     protected void doPost(HttpServletRequest req,
                           HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
@@ -31,10 +35,11 @@ public class MainController extends HttpServlet {
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
 
-        //определение команды, пришедшей из JSP
+        //Getting particular Command Object, from Request
         Command command = requestHelper.getCommand(request);
         page = command.execute(request, response);
 
+        //Throw request and response objects to jsp page (MVC pattern)
         RequestDispatcher dispatcher =
                 getServletContext().getRequestDispatcher("/jsp/" + page + ".jsp");
         dispatcher.forward(request, response);

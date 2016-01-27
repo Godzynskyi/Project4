@@ -17,6 +17,6 @@ public class CommandLogout implements Command {
         HttpSession session = request.getSession();
         session.removeAttribute("admin");
 
-        return "user/welcome";
+        return "index";
     }
 }

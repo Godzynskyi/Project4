@@ -1,7 +1,7 @@
 package com.godzynskyi.exceptions;
 
 /**
- * Created by Java Developer on 27.11.2015.
+ * Throws when client enter not valid phone number.
  */
 public class BadPhoneException extends Exception {
     public BadPhoneException(Throwable cause) {

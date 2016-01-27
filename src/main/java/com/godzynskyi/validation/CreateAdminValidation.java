@@ -3,15 +3,27 @@ package com.godzynskyi.validation;
 import com.godzynskyi.properties.Message;
 
 /**
- * Created by Java Developer on 05.12.2015.
+ * Util class to check data for creating new admin
  */
 public class CreateAdminValidation {
+    /**
+     * Wrapper for information about validation of creating admin
+     */
     public static class Result {
         public boolean noData = false;
         public boolean valid = true;
         public String error="";
     }
 
+    /**
+     *
+     * @param login
+     * @param password1
+     * @param password2
+     * @param firstname
+     * @param lastname
+     * @return
+     */
     public static Result isValid(String login, String password1, String password2, String firstname, String lastname) {
         Result result;
         result = new Result();

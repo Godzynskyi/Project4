@@ -3,13 +3,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <fmt:setLocale value="${language}" />
-  <title></title>
+  <title>Create order</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
 <%@include file="menu_user.jsp"%>
 <c:set var="order" value="${sessionScope.get(order)}"/>
+
+<h1>Create order:</h1>
 
 <form action="/page/create_order_handler" method="post">
   Start of rent:

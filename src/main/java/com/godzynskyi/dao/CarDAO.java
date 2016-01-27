@@ -47,11 +47,17 @@ public class CarDAO {
             }
 
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return -1;
     }
 
+    /**
+     * Searching cars by particular filters.
+     *
+     * @param filterList list of filters.
+     * @return List of Cars from DB and empty List in case of Exception
+     */
     public List<Car> findCars(List<CarFilter> filterList) {
         List<Car> res = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM car");
@@ -77,11 +83,17 @@ public class CarDAO {
             }
             return res;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return new ArrayList<Car>();
     }
 
+    /**
+     * Returns Instance of Car from DB.
+     *
+     * @param id carId from DB.
+     * @return instance of Car or null in case of Exception or if not exist.
+     */
     public Car getCar(int id) {
         Car car = null;
         try (Connection c = DBFactory.getDBConnection();
@@ -91,7 +103,7 @@ public class CarDAO {
             if (!rs.next()) return null;
             return getCarFromResultSet(rs);
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return null;
     }

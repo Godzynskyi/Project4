@@ -37,11 +37,11 @@ public class CommandAddDefectHandler implements Command {
             orderId = Integer.parseInt(orderIdString);
             price = Float.parseFloat(priceString.replace(",", "."));
             ocurrenceDate = CalendarUtil.getCalendar(occurrenceDateString);
-            if (ocurrenceDate.after(new GregorianCalendar())) throw new Exception("Occurrence Date cannot be in future.");
+            if (ocurrenceDate.after(Calendar.getInstance())) throw new Exception("Occurrence Date cannot be in future.");
         } catch (Exception e) {
             logger.error(e);
             request.setAttribute("error", Message.get(Message.BAD_DATA));
-            return RequestHelper.getInstance().getCommand("/page/orders").execute(request, response);
+            return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
         }
 
         Order order = DAOFactory.orderDAO().getOrder(orderId);

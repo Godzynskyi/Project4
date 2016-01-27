@@ -1,7 +1,7 @@
 package com.godzynskyi.model;
 
 /**
- * Created by Java Developer on 21.11.2015.
+ * POJO of Client entity in DAO pattern with Builder.
  */
 public class Client {
 
@@ -14,6 +14,11 @@ public class Client {
     public Client() {
     }
 
+    /**
+     * Order has-a Client, so we usually use Client object with correct only id field to compare clients from order equals.
+     *
+     * @param id Id field of Client object.
+     */
     public Client(int id) {
         this.id = id;
     }
@@ -24,7 +29,8 @@ public class Client {
 
     public class Builder {
 
-        private Builder() {}
+        private Builder() {
+        }
 
         public Builder setId(int id) {
             Client.this.id = id;
@@ -63,7 +69,7 @@ public class Client {
 
         Client client = (Client) o;
 
-        if (id == client.id && id != 0) return true;
+//        if (id == client.id && id != 0) return true;
 
         if (!email.equals(client.email)) return false;
         if (firstName != null ? !firstName.equals(client.firstName) : client.firstName != null) return false;

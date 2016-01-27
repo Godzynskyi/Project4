@@ -27,7 +27,7 @@ public class CommandConfirmReturnCar implements Command {
         try {
             orderId = Integer.parseInt(orderIdString);
             carId = Integer.parseInt(carIdString);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error(e);
             return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
         }

@@ -51,7 +51,7 @@ public class CommandCreateCar implements Command {
             expenditureFloat = Float.parseFloat(expenditure);
             priceInt = Integer.parseInt(price);
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error(e);
             return "admin/create_car";
         }

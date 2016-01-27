@@ -1,5 +1,6 @@
 package com.godzynskyi.command.user;
 
+import com.godzynskyi.util.ConfirmOrderMap;
 import com.godzynskyi.util.ReservedDatesOfCar;
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.command.Command;
@@ -30,14 +31,17 @@ public class CommandConfirmOrder implements Command {
         synchronized (ReservedDatesOfCar.class) {
             if (DAOFactory.orderDAO().isAvailableDateForCar(order.getStart(), order.getEnd(), order.getCar().getId())
                     && ReservedDatesOfCar.isAvailableDate(order)) {
+                ReservedDatesOfCar.removeDatesOfCar(order.getCar().getId(), order);
                 int addingResult = DAOFactory.orderDAO().addOrder(order);
+
                 if (addingResult == -1) {
                     request.setAttribute("error", Message.get(Message.SQL_EXCEPTION));
                 } else {
                     request.setAttribute("message", Message.get(Message.ORDER_SUCCESSFULLY_ADDED));
                 }
 
-                EmailService.sendEmail(order);
+                String code = ConfirmOrderMap.generateCode(order.getId());
+                EmailService.sendEmail(order, code);
 
             } else {
 

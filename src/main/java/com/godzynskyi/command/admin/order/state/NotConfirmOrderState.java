@@ -27,13 +27,6 @@ public class NotConfirmOrderState implements OrderState {
             request.setAttribute("error", Message.get(Message.ORDER_NOT_CONFIRMED));
         }
 
-        try {
-            return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
-        } catch (Exception e) {
-            logger.error(e);
-        }
-
-        return "admin/orders";
-
+        return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
     }
 }

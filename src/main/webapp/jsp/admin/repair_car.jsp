@@ -3,12 +3,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <fmt:setLocale value="${language}" />
   <title></title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
 <%@include file="menu_admin.jsp"%>
+<br>
+<h1>Repair car:</h1>
 <br>
 <h1>${car.model}</h1>
 <ul>

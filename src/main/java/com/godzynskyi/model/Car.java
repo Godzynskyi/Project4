@@ -1,7 +1,7 @@
 package com.godzynskyi.model;
 
 /**
- * Created by Java Developer on 21.11.2015.
+ * POJO of Car entity in DAO pattern.
  */
 public class Car {
 
@@ -58,6 +58,12 @@ public class Car {
         return description;
     }
 
+    /**
+     * Equals compares object only by Id field.
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,6 +76,10 @@ public class Car {
         return true;
     }
 
+    /**
+     * HashCode depends only of ID field.
+     * @return
+     */
     @Override
     public int hashCode() {
         return id;

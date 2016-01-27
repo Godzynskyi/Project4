@@ -14,10 +14,21 @@ import java.util.Set;
 
 /**
  * Created by Java Developer on 04.12.2015.
+ *
+ * This class help us to get Commands from particular package.
  */
 public class AnnotationCommands {
 
 
+
+    /**
+     * This method through reflection search all Classes with annotation @RequestMapper
+     * and add this instance of this class to Map
+     *
+     * @param pathPackage package where method search classes with annotation @RequestMapper
+     * @param prefix prefix of request that concatenates to value of annotation
+     * @return HashMap of all Commands where key is request Uri, value is instance of Command class
+     */
     Map<String, Command> putCommandsToMap(String pathPackage, String prefix) {
         Map<String, Command> result = new HashMap<>();
         Reflections reflections = new Reflections(pathPackage, new SubTypesScanner(false));

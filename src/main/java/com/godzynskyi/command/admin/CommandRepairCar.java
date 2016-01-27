@@ -23,7 +23,7 @@ public class CommandRepairCar implements Command {
         int carId;
         try {
             carId = Integer.parseInt(car_idString);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error(e);
             return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
         }

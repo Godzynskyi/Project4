@@ -22,7 +22,7 @@ public class CommandPayDefectsHandler implements Command {
         int orderId;
         try {
             orderId = Integer.parseInt(order_id);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error(e);
             return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
         }

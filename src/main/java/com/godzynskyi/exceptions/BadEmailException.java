@@ -1,7 +1,7 @@
 package com.godzynskyi.exceptions;
 
 /**
- * Created by Java Developer on 27.11.2015.
+ * Throws when client enter not valid e-mail.
  */
 public class BadEmailException extends Exception {
     public BadEmailException(Throwable cause) {

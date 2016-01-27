@@ -23,22 +23,33 @@ public class AdminDAO {
 
     private static final Logger logger = Logger.getLogger(AdminDAO.class);
 
+    /**
+     * Checks is login and password are correct for any admin.
+     * @param login login of admin
+     * @param password password of admin
+     * @return
+     */
     public boolean isAdmin(String login, String password) {
         try (Connection connection = DBFactory.getDBConnection();
         PreparedStatement ps = connection.prepareStatement(isAdminQuery)) {
             ps.setString(1, login.toLowerCase());
             ResultSet resultSet = ps.executeQuery();
+
+            // Admin_login is unique column that's why we use "if" instead of "while"
             if (resultSet.next()) {
+
+                // Passwords in DB are kept with BCrypt encoder.
                 return BCrypt.checkpw(password, resultSet.getString(1));
             }
+
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return false;
     }
 
     /**
-     * 
+     * Trying to add new admin to DB if not exist.
      * @param admin Admin object
      * @return 1 if added, 0 if exists, -1 if SQLException
      */
@@ -53,7 +64,7 @@ public class AdminDAO {
             int i = ps.executeUpdate();
             return i;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return -1;
         }
     }

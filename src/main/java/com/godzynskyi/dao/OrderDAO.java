@@ -24,6 +24,7 @@ public class OrderDAO {
     private static final String addOrderQuery = SQLQueries.orderQuery("ADD_ORDER_QUERY");
     private static final String updateOrderQuery = SQLQueries.orderQuery("UPDATE_ORDER_QUERY");
     private static final String isAvailableDateForCarQuery = SQLQueries.orderQuery("IS_AVAILABLE_DATE_FOR_CAR_QUERY");
+    private static final String isAvailableDateToEditOrder = SQLQueries.orderQuery("IS_AVAILABLE_DATE_TO_EDIT_ORDER");
     private static final String changeOrderStatusQuery = SQLQueries.orderQuery("CHANGE_ORDER_STATUS_QUERY");
     private static final String getBlockedDatesQuery = SQLQueries.orderQuery("GET_BLOCKED_DATES_QUERY");
     private static final String changeAdminOfOrderQuery = SQLQueries.orderQuery("CHANGE_ADMIN_OF_ORDER_QUERY");
@@ -81,7 +82,7 @@ public class OrderDAO {
             return res;
 
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return null;
         }
     }
@@ -124,11 +125,14 @@ public class OrderDAO {
 
             return res;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return null;
     }
 
+    /**
+     * Change column admin of current order row in DB.
+     */
     public boolean changeAdminOfOrder(int orderId, String adminLogin) {
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(changeAdminOfOrderQuery)) {
@@ -138,26 +142,68 @@ public class OrderDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return false;
         }
     }
 
+    /**
+     *
+     * @param status new status of order.
+     * @return true if update
+     *          or false otherwise
+     */
     public boolean changeOrderStatus(int orderId, Order.Status status) {
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(changeOrderStatusQuery)) {
 
-            ps.setInt(1, status.getStatus());
+            int newStatus = status.getStatus();
+            ps.setInt(1, newStatus);
             ps.setInt(2, orderId);
-            ps.executeUpdate();
-            return true;
+            ps.setInt(3, newStatus - 1);
+            int i = ps.executeUpdate();
+            return i==1;
 
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return false;
         }
     }
 
+    /**
+     * To change dates of existing order we must know all reserved dates of this car instead of current order.
+     *
+     * @param start New date of rent starting
+     * @param end New date of rent finishing
+     * @param carId id of car
+     * @param orderId id of current order (old dates of current order will not uses)
+     * @return true if date period is not reserved or false otherwise.
+     */
+    public boolean isAvailableDateToEditOrder(Calendar start, Calendar end, int carId, int orderId) {
+        try (Connection c = DBFactory.getDBConnection();
+             PreparedStatement ps = c.prepareStatement(isAvailableDateToEditOrder)) {
+
+            ps.setInt(1, carId);
+            ps.setDate(2, new Date(end.getTimeInMillis()));
+            ps.setDate(3, new Date(start.getTimeInMillis()));
+            ps.setInt(4, orderId);
+
+            ResultSet resultSet = ps.executeQuery();
+            if (!resultSet.next()) return true;
+        } catch (SQLException e) {
+            logger.info(e);
+        }
+        return false;
+    }
+
+    /**
+     * Get all dates in this period. If count > 0 return false else true.
+     *
+     * @param start Start date of new order
+     * @param end Finish date of new order
+     * @param carId ID of car from DB
+     * @return true if car is not in reserve for this dates or false otherwise
+     */
     public boolean isAvailableDateForCar(Calendar start, Calendar end, int carId) {
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(isAvailableDateForCarQuery)) {
@@ -169,7 +215,7 @@ public class OrderDAO {
             ResultSet resultSet = ps.executeQuery();
             if (!resultSet.next()) return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return false;
     }
@@ -182,7 +228,7 @@ public class OrderDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return false;
         }
     }
@@ -211,27 +257,29 @@ public class OrderDAO {
             if (i == 1) {
                 ResultSet generatedKeys = ps.getGeneratedKeys();
                 if (generatedKeys.next()) {
+                    order.setId(generatedKeys.getInt(1));
                     return generatedKeys.getInt(1);
                 }
             }
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return -1;
     }
 
     /**
-     * Returns dates from ... to ... when this car was reserved.
+     * Returns dates from ... to ... when this car has been reserved.
      *
      * @param carId Id od car,
      * @return set of dates or null if there was problems with DB.
+     *      Orders have only carId, start and end dates.
      */
     public Set<Order> getBlockedDates(int carId) {
         Set<Order> res = new HashSet<>();
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(getBlockedDatesQuery)) {
 
-            Calendar to = new GregorianCalendar();
+            Calendar to = Calendar.getInstance();
             to.add(Calendar.MONTH, 3);
 
             ps.setInt(1, carId);
@@ -247,28 +295,33 @@ public class OrderDAO {
             }
             return res;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return null;
         }
     }
 
-    public boolean updateOrder(Order order) {
+    /**
+     * Method updates information about order in DB.
+     * The order with current ID will be replaced after this method runs.
+     * @return true if successfully changed row or false otherwise.
+     */
+    public boolean updateOrder(Order changedOrder) {
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(updateOrderQuery)) {
 
-            ps.setString(1, order.getAdmin());
-            ps.setInt(2, order.getCar().getId());
-            ps.setString(3, CalendarUtil.getDateString(order.getStart()));
-            ps.setString(4, CalendarUtil.getDateString(order.getEnd()));
-            ps.setString(5, order.getDetails());
-            ps.setBoolean(6, order.isChildChair());
-            ps.setBoolean(7, order.isGps());
-            ps.setInt(8, order.getId());
+            ps.setString(1, changedOrder.getAdmin());
+            ps.setInt(2, changedOrder.getCar().getId());
+            ps.setString(3, CalendarUtil.getDateString(changedOrder.getStart()));
+            ps.setString(4, CalendarUtil.getDateString(changedOrder.getEnd()));
+            ps.setString(5, changedOrder.getDetails());
+            ps.setBoolean(6, changedOrder.isChildChair());
+            ps.setBoolean(7, changedOrder.isGps());
+            ps.setInt(8, changedOrder.getId());
 
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return false;
         }
     }

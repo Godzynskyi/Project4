@@ -1,7 +1,7 @@
 package com.godzynskyi.model;
 
 /**
- * Created by Java Developer on 21.11.2015.
+ * POJO of Admin entity in DAO pattern.
  */
 public class Admin {
 

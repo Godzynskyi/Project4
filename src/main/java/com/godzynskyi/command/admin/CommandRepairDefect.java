@@ -21,7 +21,7 @@ public class CommandRepairDefect implements Command {
         int defectId;
         try {
             defectId = Integer.parseInt(defect_id);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error(e);
             return RequestHelper.getInstance().getCommand("/page/admin/orders").execute(request, response);
         }

@@ -5,6 +5,12 @@ import org.apache.log4j.Logger;
 
 import java.util.*;
 
+/**
+ * All just created orders reserves dates.
+ * All changes to DB or this instance with orders do in synchronize block by this class.
+ * After confirm or cancel some just created order removes Order from this class and save info in DB.
+ * This class uses when takes info about reserved dates of particular car.
+ */
 public class ReservedDatesOfCar {
     private static final Logger logger = Logger.getLogger(ReservedDatesOfCar.class);
     private Map<Integer, Set<Order>> reserves = new HashMap<>();
@@ -48,7 +54,7 @@ public class ReservedDatesOfCar {
         if (!instance.reserves.containsKey(carId)) return true;
         Set<Order> reservedDates = instance.reserves.get(carId);
         for(Order o: reservedDates) {
-            if (o.getStart().before(to) && o.getEnd().after(from) && !o.equals(order)) return false;
+            if (o.getStart().before(to) && o.getEnd().after(from) && o.getId()!=order.getId()) return false;
         }
         return true;
     }
@@ -57,7 +63,6 @@ public class ReservedDatesOfCar {
         Set<Order> orders = getDates(carId);
 
         synchronized (ReservedDatesOfCar.class) {
-            //TODO
             orders.remove(order);
         }
     }

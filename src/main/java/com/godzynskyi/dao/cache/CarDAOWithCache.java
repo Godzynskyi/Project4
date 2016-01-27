@@ -3,7 +3,17 @@ package com.godzynskyi.dao.cache;
 import com.godzynskyi.dao.CarDAO;
 import com.godzynskyi.model.Car;
 
+/**
+ * This class cached Cars from DB in lazy mode (getting Car with corresponding request).
+ */
 public class CarDAOWithCache extends CarDAO {
+
+    /**
+     * Because of small quantity of Cars we use cache for their instances.
+     *
+     * @param id CarId from DB.
+     * @return Instance of this Car.
+     */
     @Override
     public Car getCar(int id) {
         Car res = CarCache.getCar(id);

@@ -7,14 +7,15 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+/**
+ * This filter changes codding of requests and response to UTF-8
+ */
 public class CodingFilter implements Filter {
 	private final Logger logger = Logger.getLogger("CodingFilter");
 	private static final String CODING = "UTF-8";
 
-	public CodingFilter() {
-	}
-
-	public void destroy() {
+	@Override
+	public void init(FilterConfig fConfig) throws ServletException {
 	}
 
 	// Filter changes coding to UTF-8
@@ -34,8 +35,8 @@ public class CodingFilter implements Filter {
 			chain.doFilter(request, response);
 	}
 
-
-	public void init(FilterConfig fConfig) throws ServletException {
+	@Override
+	public void destroy() {
 	}
 
 }

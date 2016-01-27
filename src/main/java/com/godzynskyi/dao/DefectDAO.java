@@ -24,6 +24,11 @@ public class DefectDAO {
 
     protected DefectDAO() {}
 
+    /**
+     * Adding defect to DB
+     * @param defect Defect to add to DB
+     * @return true if added or false otherwise
+     */
     public boolean addDefect(Defect defect) {
         try (Connection c = DBFactory.getDBConnection();
             PreparedStatement ps = c.prepareStatement(addDefectQuery)) {
@@ -37,11 +42,16 @@ public class DefectDAO {
             int i = ps.executeUpdate();
             return (i==1);
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return false;
     }
 
+    /**
+     * Name of method said all about his procedure
+     * @param carId Id or car from DB
+     * @return List of descriptions
+     */
     public List<String> getDescriptionsOfNotRepairedDefectsOfCar(int carId) {
         List<String> result = new ArrayList<>();
         try (Connection c = DBFactory.getDBConnection();
@@ -54,11 +64,10 @@ public class DefectDAO {
                 result.add(rs.getString(1));
             }
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return result;
     }
-
 
     public List<Defect> getNotPaidDefectsOfCar(int carId) {
         List<Defect> res = new ArrayList<>();
@@ -79,11 +88,16 @@ public class DefectDAO {
             }
             return res;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return res;
         }
     }
 
+    /**
+     * This method change flag is_paid for all Defects of particular order.
+     * @param orderId Id of current order.
+     * @return true if changed or false otherwise
+     */
     public boolean paidForOrdersDefects(int orderId) {
         try (Connection c = DBFactory.getDBConnection();
             PreparedStatement ps = c.prepareStatement(paidForOrdersDefectsQuery)) {
@@ -91,7 +105,7 @@ public class DefectDAO {
             int i = ps.executeUpdate();
             if (i > 0) return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
         return false;
     }
@@ -105,22 +119,29 @@ public class DefectDAO {
             while (rs.next()) {
                 Defect defect = Defect.getBuilder()
                         .setId(rs.getInt("id"))
-//                        .setCarId(carId)
-//                        .setClientId(rs.getInt("client_id"))
+                        .setCarId(carId)
+                        .setClientId(rs.getInt("client_id"))
                         .setDescription(rs.getString("description"))
                         .setPriceForClient(rs.getFloat("client_price"))
-//                        .setDate(CalendarUtil.getCalendar(rs.getString("occurrence_date")))
-//                        .setPaid(rs.getBoolean("is_paid"))
+                        .setDate(CalendarUtil.getCalendar(rs.getString("occurrence_date")))
+                        .setPaid(rs.getBoolean("is_paid"))
                         .build();
                 res.add(defect);
             }
             return res;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return res;
         }
     }
 
+    /**
+     * This method change column "repaired" to true of current defect.
+     * To check request uses price of defect.
+     *
+     * @param defectId ID of defect from DB
+     * @param price defect.price + ""
+     */
     public void repairDefect(int defectId, String price) {
         try (Connection c = DBFactory.getDBConnection();
             PreparedStatement ps = c.prepareStatement(repairDefectQuery)) {
@@ -128,7 +149,7 @@ public class DefectDAO {
             ps.setString(2, price);
             ps.executeUpdate();
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
         }
     }
 }

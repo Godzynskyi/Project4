@@ -4,7 +4,9 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-
+/**
+ * Util class to convert Calendars, Strings, Dates etc.
+ */
 public class CalendarUtil {
 
 
@@ -23,6 +25,12 @@ public class CalendarUtil {
         return result;
     }
 
+    /**
+     * Convert String like YYYY-MM-DD and HH:MM in Calendar Object
+     * @param date YYYY-MM-DD String.
+     * @param time HH:MM String.
+     * @return Calendar object of the date
+     */
     public static Calendar getCalendar(String date, String time) {
         String[] dateSpl = date.split("-");
         int year = Integer.parseInt(dateSpl[0]);

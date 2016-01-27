@@ -3,7 +3,7 @@ package com.godzynskyi.properties;
 import java.util.ResourceBundle;
 
 /**
- * Created by Java Developer on 04.12.2015.
+ * Queries to DB stores in suited properties files.
  */
 public class SQLQueries {
     private static SQLQueries instance = new SQLQueries();

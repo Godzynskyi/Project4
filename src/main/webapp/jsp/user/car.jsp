@@ -14,11 +14,12 @@
 <ul>
   <li>year - ${car.year}</li>
   <li>color - ${car.color}</li>
-  <li>engine - ${car.engine}</li>
-  <li>avg expenditure - ${car.expenditure}</li>
+  <li>engine - ${car.engine}L</li>
+  <li>avg expenditure - ${car.expenditure}L/100km</li>
   <li>transmission -
     <c:if test="${car.automat}">AUTOMAT</c:if>
     <c:if test="${car.automat eq false}">MANUAL</c:if></li>
+  <li>price - $${car.price}</li>
 </ul>
 <p style="margin-left: 40px;">${car.description}</p>
 <br>

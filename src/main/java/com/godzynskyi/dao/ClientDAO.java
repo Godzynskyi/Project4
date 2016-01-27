@@ -37,11 +37,16 @@ public class ClientDAO {
                 if (generatedKeys.next()) return generatedKeys.getInt(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.info(e);
         }
         return -1;
     }
 
+    /**
+     * Update client by Id. So method update row where clientId equals client.getId()
+     * @param client new client Object
+     * @return true if update or false in case of SQLException.
+     */
     public boolean updateClient(Client client) {
         try (Connection c = DBFactory.getDBConnection();
              PreparedStatement ps = c.prepareStatement(updateClientQuery)) {
@@ -52,10 +57,10 @@ public class ClientDAO {
             ps.setString(4, client.getLastName());
             ps.setInt(5, client.getId());
 
-            ps.executeQuery();
+            ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            logger.error(e);
+            logger.info(e);
             return false;
         }
     }

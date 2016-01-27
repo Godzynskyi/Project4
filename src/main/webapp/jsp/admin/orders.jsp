@@ -11,11 +11,6 @@
 <body>
 <%@include file="menu_admin.jsp" %>
 
-<c:set var="notConfirm" value="<%= Order.Status.NOT_CONFIRM.getStatus() %>"/>
-<c:set var="confirmed" value="<%= Order.Status.CONFIRMED.getStatus() %>"/>
-<c:set var="carWasGot" value="<%= Order.Status.CAR_WAS_GOT.getStatus() %>"/>
-
-
 <%--Searching--%>
 <form action="/page/admin/orders" method="post">
     Filter by Car Id:
@@ -66,10 +61,10 @@
                         <c:if test="${order.statusInt eq 0}">
                             <input type="submit" value="Confirm">
                         </c:if>
-                        <c:if test="${order.statusInt eq confirmed}">
+                        <c:if test="${order.statusInt eq 1}">
                             <input type="submit" value="Give Car">
                         </c:if>
-                        <c:if test="${order.statusInt eq carWasGot}">
+                        <c:if test="${order.statusInt eq 2}">
                             <input type="submit" value="Return Car">
                         </c:if>
                     </form>

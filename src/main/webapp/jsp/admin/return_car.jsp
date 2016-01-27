@@ -3,13 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <fmt:setLocale value="${language}" />
     <title></title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
 <%@include file="menu_admin.jsp"%>
-
+<h1>Return Car Page:</h1>
 On this page you can see all declared defects the car has got...
 
 <h1>${order.car.model}</h1>

@@ -1,11 +1,9 @@
 package com.godzynskyi.properties;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ResourceBundle;
 
 /**
- * Created by Java Developer on 03.12.2015.
+ * All messages stores in messages.properties to do program multi-language
  */
 public class Message {
 
@@ -32,6 +30,7 @@ public class Message {
     public static final String ORDER_SUCCESSFULLY_ADDED = "ORDER_SUCCESSFULLY_ADDED";
     public static final String ORDER_CONFIRMED = "ORDER_CONFIRMED";
     public static final String ORDER_NOT_CONFIRMED = "ORDER_NOT_CONFIRMED";
+    public static final String ORDER_DELETED = "ORDER_DELETED";
     public static final String CAR_WAS_GIVEN = "CAR_WAS_GIVEN";
     public static final String SUCCESSFUL = "SUCCESSFUL";
 

@@ -22,6 +22,7 @@ public class CommandConfirmGivingCar implements Command {
         int orderId = Integer.parseInt(idOrder);
 
         if (DAOFactory.orderDAO().changeOrderStatus(orderId, Order.Status.CAR_WAS_GOT)) {
+            DAOFactory.orderDAO().changeAdminOfOrder(orderId, (String) request.getSession().getAttribute("admin"));
             request.setAttribute("message", Message.get(Message.CAR_WAS_GIVEN));
         } else {
             request.setAttribute("error", Message.get(Message.SQL_EXCEPTION));

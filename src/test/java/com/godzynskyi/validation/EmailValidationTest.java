@@ -19,4 +19,18 @@ public class EmailValidationTest {
         boolean actual = EmailValidation.isEmail(email);
         assertEquals(true, actual);
     }
+
+    @Test
+    public void testIsEmail2() throws Exception {
+        String email = "_ivan@i.com.ua";
+        boolean actual = EmailValidation.isEmail(email);
+        assertEquals(true, actual);
+    }
+
+    @Test
+    public void testIsEmail3() throws Exception {
+        String email = "asdf@asdf@i.com.ua";
+        boolean actual = EmailValidation.isEmail(email);
+        assertEquals(false, actual);
+    }
 }

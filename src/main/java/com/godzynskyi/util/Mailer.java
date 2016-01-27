@@ -1,12 +1,21 @@
 package com.godzynskyi.util;
 
+import org.apache.log4j.Logger;
+
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.InternetHeaders;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * Util class that send e-mail message
+ */
 public class Mailer {
+	private static final Logger logger = Logger.getLogger(Mailer.class);
 	Session session; // session
 	Properties properties; // properties
 	Transport transport; // transport
@@ -24,20 +33,35 @@ public class Mailer {
 		message = new MimeMessage(session);
 	}
 
-	public void sendEmail(String toEmail, String subject, String body)
+	/**
+	 * Sending e-mail.
+	 * @param toEmail e-mail address
+	 * @param subject title of message
+	 * @param htmlBody body of message
+	 */
+	public void sendEmail(String toEmail, String subject, String htmlBody)
 			throws MessagingException {
 
 		/* set parameters for connection to gmail SMTP */
-		String fromUser = "ivan.godzynskyi@gmail.com";
-		String fromUserEmailPassword = "Verachka73";
+		String fromUser = "carrentforepam@gmail.com";
+		String fromUserEmailPassword = "carrent2016";
 		String emailHost = "smtp.gmail.com";
 		/* get parameters for message from message.properties */
-	
+
+
+		InternetHeaders headers = new InternetHeaders();
+		headers.addHeader("Content-type", "text/html; charset=UTF-8");
+		try {
+			MimeBodyPart body = new MimeBodyPart(headers, htmlBody.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e);
+		}
+
 
 		message.setSubject(subject);
 		message.setFrom(new InternetAddress("support@renter.com"));
-		message.setText(body);
-		
+		message.setText(htmlBody, "utf-8", "html");
+
 		message.addRecipient(javax.mail.Message.RecipientType.TO, 
                 new InternetAddress(toEmail));
 

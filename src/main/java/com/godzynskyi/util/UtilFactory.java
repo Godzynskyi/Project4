@@ -1,7 +1,8 @@
 package com.godzynskyi.util;
 
-import com.godzynskyi.util.ConfirmOrderMap;
-
+/**
+ * Factory to get Util classes.
+ */
 public class UtilFactory {
 
     public static ConfirmOrderMap confirmOrderMap() { return ConfirmOrderMap.getInstance(); }

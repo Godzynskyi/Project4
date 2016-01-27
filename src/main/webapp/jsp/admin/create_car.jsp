@@ -9,8 +9,9 @@
 <body>
 <%@include file="menu_admin.jsp" %>
 
+
 <div id="registration_form">
-    <h1>New car</h1>
+    <h1>Create new car:</h1>
     <form method="post" action="/page/admin/create_car">
         <input type="text" name="model" placeholder="Model"><br>
         <input type="text" name="year" placeholder="Year"><br>

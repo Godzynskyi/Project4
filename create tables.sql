@@ -1,23 +1,58 @@
-create database Car_rent;
-use Car_rent;
+CREATE DATABASE  IF NOT EXISTS `cars` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `cars`;
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
+--
+-- Host: localhost    Database: cars
+-- ------------------------------------------------------
+-- Server version	5.6.26-log
 
-CREATE TABLE `brand` (
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `_order`
+--
+
+DROP TABLE IF EXISTS `_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `_order` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
+  `admin_login` varchar(45) DEFAULT NULL,
+  `client_id` int(11) NOT NULL,
+  `car_id` int(11) NOT NULL,
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `details` longtext,
+  `child_chair` bit(1) NOT NULL,
+  `gps` bit(1) NOT NULL,
+  `total_price` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+  KEY `admin_login` (`admin_login`),
+  KEY `client_id` (`client_id`),
+  KEY `car_id` (`car_id`),
+  CONSTRAINT `_order_ibfk_1` FOREIGN KEY (`admin_login`) REFERENCES `admin` (`login`),
+  CONSTRAINT `_order_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`),
+  CONSTRAINT `_order_ibfk_3` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE `model` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand` int(11) DEFAULT NULL,
-  `model` varchar(255) NOT NULL,
-  `about` text,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_brand` (`brand`,`model`),
-  CONSTRAINT `model_ibfk_1` FOREIGN KEY (`brand`) REFERENCES `brand` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+--
+-- Table structure for table `admin`
+--
 
+DROP TABLE IF EXISTS `admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `admin` (
   `login` varchar(45) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -25,143 +60,79 @@ CREATE TABLE `admin` (
   `lastname` varchar(45) NOT NULL,
   PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE `delivery` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `time` TIMESTAMP NOT NULL,
-  `address` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+--
+-- Table structure for table `car`
+--
 
-CREATE TABLE `client` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NULL,
-  `firstname` varchar(255) NOT NULL,
-  `lastname` varchar(255) NOT NULL,
-  `phone` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `_options` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `classes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
+DROP TABLE IF EXISTS `car`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `car` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `model` int(11) NOT NULL,
+  `model` varchar(255) DEFAULT NULL,
   `year` int(11) NOT NULL,
   `color` varchar(45) DEFAULT NULL,
   `engine` float DEFAULT NULL,
   `expenditure` float DEFAULT NULL,
   `automat` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `model` (`model`),
-  CONSTRAINT `car_ibfk_1` FOREIGN KEY (`model`) REFERENCES `model` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `price` int(11) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE `_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `admin_id` varchar(45) DEFAULT NULL,
-  `client_id` int(11) NOT NULL,
-  `car_id` int(11) NOT NULL,
-  `start_date` datetime NOT NULL,
-  `end_date` datetime NOT NULL,
-  `details` text NULL,
-  `delivery_id_to` int(11) DEFAULT NULL,
-  `delivery_id_from` int(11) DEFAULT NULL,
-  `child_chair` bit(1) NOT NULL,
-  `gps` bit(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_delivery_id_to` (`delivery_id_to`),
-  UNIQUE KEY `unique_delivery_id_from` (`delivery_id_from`),
-  KEY `admin_id` (`admin_id`),
-  KEY `client_id` (`client_id`),
-  KEY `car_id` (`car_id`),
-  CONSTRAINT `_order_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`login`),
-  CONSTRAINT `_order_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`),
-  CONSTRAINT `_order_ibfk_3` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`),
-  CONSTRAINT `_order_ibfk_4` FOREIGN KEY (`delivery_id_to`) REFERENCES `delivery` (`id`),
-  CONSTRAINT `_order_ibfk_5` FOREIGN KEY (`delivery_id_from`) REFERENCES `delivery` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+--
+-- Table structure for table `client`
+--
 
-CREATE TABLE `repair_executor` (
+DROP TABLE IF EXISTS `client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `client` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
   `phone` varchar(45) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `defect`
+--
+
+DROP TABLE IF EXISTS `defect`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `defect` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) DEFAULT NULL,
+  `car_id` int(11) NOT NULL,
   `description` text NOT NULL,
   `client_price` float NOT NULL,
   `occurrence_date` date NOT NULL,
-  `car_id` int(11) NOT NULL,
+  `is_paid` bit(1) DEFAULT b'0',
+  `repaired` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
-  KEY `client` (`client_id`),
+  KEY `client_id` (`client_id`),
   KEY `car_id` (`car_id`),
   CONSTRAINT `defect_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `client` (`id`),
   CONSTRAINT `defect_ibfk_2` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-CREATE TABLE `car_price` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `car_id` int(11) NOT NULL,
-  `price0` int(11) NOT NULL,
-  `price1` int(11) NOT NULL,
-  `price2` int(11) NOT NULL,
-  `price3` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `unique_car_id` (`car_id`),
-  CONSTRAINT `car_price_ibfk_1` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-CREATE TABLE `car_options` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `car_id` int(11) NOT NULL,
-  `option_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `car_id` (`car_id`),
-  KEY `option_id` (`option_id`),
-  CONSTRAINT `car_options_ibfk_1` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`),
-  CONSTRAINT `car_options_ibfk_2` FOREIGN KEY (`option_id`) REFERENCES `_options` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+INSERT INTO `admin` VALUES ('admin','$2a$10$Y4IS6By475TFMPlBChDDMuryfMfTRzNppRmnOvAls84jm9Z1oEEnG','admin','admin');
 
-CREATE TABLE `car_class` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `car_id` int(11) NOT NULL,
-  `class_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `car_id` (`car_id`),
-  KEY `class_id` (`class_id`),
-  CONSTRAINT `car_class_ibfk_1` FOREIGN KEY (`car_id`) REFERENCES `car` (`id`),
-  CONSTRAINT `car_class_ibfk_2` FOREIGN KEY (`class_id`) REFERENCES `classes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
-CREATE TABLE `repaired_defect` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `defect_id` int(11) NOT NULL,
-  `price` double NOT NULL,
-  `date` date NOT NULL,
-  `executor` int(11) NOT NULL,
-  `repaired` bit(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `executor` (`executor`),
-  KEY `defect_id` (`defect_id`),
-  CONSTRAINT `repaired_defect_ibfk_2` FOREIGN KEY (`executor`) REFERENCES `repair_executor` (`id`),
-  CONSTRAINT `repaired_defect_ibfk_3` FOREIGN KEY (`defect_id`) REFERENCES `defect` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-Insert into admin (login, password) Values ('admin', '$2a$10$Y4IS6By475TFMPlBChDDMuryfMfTRzNppRmnOvAls84jm9Z1oEEnG');
+-- Dump completed on 2016-01-21 12:42:45

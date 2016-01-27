@@ -9,6 +9,7 @@ import com.godzynskyi.util.CalendarUtil;
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.command.Command;
 import com.godzynskyi.controller.RequestHelper;
+import com.godzynskyi.util.ReservedDatesOfCar;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +44,19 @@ public class CommandEditOrderHandler implements Command{
                 adminLogin = (String) session.getAttribute("admin");
             }
 
-            Calendar startDate = CalendarUtil.getCalendar(request.getParameter("start_date"));
-            Calendar endDate = CalendarUtil.getCalendar(request.getParameter("end_date"));
+            Calendar startDate = null;
+            try {
+                startDate = CalendarUtil.getCalendar(request.getParameter("start_date"));
+            } catch (NumberFormatException e) {
+                startDate = actualOrder.getStart();
+            }
+
+            Calendar endDate = null;
+            try {
+                endDate = CalendarUtil.getCalendar(request.getParameter("end_date"));
+            } catch (NumberFormatException e) {
+                endDate = actualOrder.getEnd();
+            }
 
             String details = request.getParameter("details");
 
@@ -73,6 +85,7 @@ public class CommandEditOrderHandler implements Command{
             Order.Builder builder = Order.newBuilder();
             Order newOrder = builder
                     .setId(orderId)
+                    .setClient(new Client(clientId))
                     .setAdmin(adminLogin)
                     .setCar(new Car(carId))
                     .setStart(startDate)
@@ -83,10 +96,17 @@ public class CommandEditOrderHandler implements Command{
                     .build();
 
             if(!newOrder.equals(actualOrder)) {
-                if (DAOFactory.orderDAO().updateOrder(newOrder)) {
-                    message += "Order has been changed successfully.";
-                } else {
-                    error = Message.get(Message.SQL_EXCEPTION);
+                synchronized (ReservedDatesOfCar.class) {
+                    if (DAOFactory.orderDAO().isAvailableDateToEditOrder(newOrder.getStart(), newOrder.getEnd(), newOrder.getCar().getId(), newOrder.getId())
+                            && ReservedDatesOfCar.isAvailableDate(newOrder)) {
+                        if (DAOFactory.orderDAO().updateOrder(newOrder)) {
+                            message += "Order has been changed successfully.";
+                        } else {
+                            error = Message.get(Message.SQL_EXCEPTION);
+                        }
+                    } else {
+                        error = Message.get(Message.DATE_IS_BLOCKED);
+                    }
                 }
             }
 

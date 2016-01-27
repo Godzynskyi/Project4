@@ -31,7 +31,7 @@ public class ConfirmOrderMap {
 
     public static boolean isValidCode(int orderId, String code) {
         String expectedCode = instance.map.get(orderId);
-        if (!code.equals(expectedCode)) return false;
+        if (expectedCode == null || !expectedCode.equals(code)) return false;
 
         synchronized (ConfirmOrderMap.class) {
             instance.map.remove(orderId);

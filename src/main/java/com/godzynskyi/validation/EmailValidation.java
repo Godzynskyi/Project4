@@ -3,9 +3,6 @@ package com.godzynskyi.validation;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Java Developer on 27.11.2015.
- */
 public class EmailValidation {
 
     public static boolean isEmail(String email) {

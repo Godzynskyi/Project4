@@ -1,9 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <fmt:setLocale value="${language}" />
   <title></title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
@@ -11,7 +9,7 @@
 <%@include file="menu_admin.jsp"%>
 <c:set var="client" value="${order.client}"/>
 
-
+<h1>Order ${order.id}</h1>
 <ul>
 <li>
     Client Id: ${client.id}<br>
@@ -28,16 +26,17 @@
 <li>Price: ${order.price}</li>
 <li>Details: ${order.details}</li>
 <li>Status of order: ${order.statusString}</li>
+    <br>
 <form action="/page/admin/change_order_status" method="post">
     <input type="hidden" name="order_id" value="${order.id}">
 
     <c:if test="${order.statusInt eq 0}">
       <input type="submit" value="Confirm">
     </c:if>
-    <c:if test="${order.statusInt eq confirmed}">
+    <c:if test="${order.statusInt eq 1}">
       <input type="submit" value="Give Car">
     </c:if>
-    <c:if test="${order.statusInt eq carWasGot}">
+    <c:if test="${order.statusInt eq 2}">
       <input type="submit" value="Return Car">
     </c:if>
 </form>

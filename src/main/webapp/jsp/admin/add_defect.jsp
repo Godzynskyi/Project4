@@ -4,7 +4,6 @@
 
 <html>
 <head>
-  <fmt:setLocale value="${language}" />
   <title>Car RENT Add Defect</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>

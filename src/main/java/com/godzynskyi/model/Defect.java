@@ -1,12 +1,9 @@
 package com.godzynskyi.model;
 
-import com.godzynskyi.util.CalendarUtil;
-
 import java.util.Calendar;
-import java.util.Date;
 
 /**
- * Created by Java Developer on 21.11.2015.
+ * POJO of Defect entity in DAO pattern with Builder.
  */
 public class Defect {
 
@@ -19,38 +16,7 @@ public class Defect {
     boolean paid; // Has client paid for defect?
     boolean repaired = false;
 
-    private Defect() {}
-
-    public boolean isPaid() {
-        return paid;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public boolean isRepaired() {
-        return repaired;
-    }
-
-    public int getCarId() {
-        return carId;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public float getPriceForClient() {
-        return priceForClient;
-    }
-
-    public Calendar getDate() {
-        return date;
+    private Defect() {
     }
 
     public static Builder getBuilder() {
@@ -59,7 +25,8 @@ public class Defect {
 
     public class Builder {
 
-        private Builder() {}
+        private Builder() {
+        }
 
         public Builder setCarId(int carId) {
             Defect.this.carId = carId;
@@ -105,6 +72,38 @@ public class Defect {
             return Defect.this;
         }
 
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isRepaired() {
+        return repaired;
+    }
+
+    public int getCarId() {
+        return carId;
+    }
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public float getPriceForClient() {
+        return priceForClient;
+    }
+
+    public Calendar getDate() {
+        return date;
     }
 
     @Override
