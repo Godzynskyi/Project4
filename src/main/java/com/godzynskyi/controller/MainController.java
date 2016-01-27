@@ -1,6 +1,7 @@
 package com.godzynskyi.controller;
 
 import com.godzynskyi.command.Command;
+import com.godzynskyi.properties.Config;
 import org.apache.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,7 @@ import java.io.IOException;
 public class MainController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(MainController.class);
     RequestHelper requestHelper = RequestHelper.getInstance();
+    private static final String JSP_PATH = Config.getProperty(Config.JSP_PATH);
 
     @Override
     protected void doPost(HttpServletRequest req,
@@ -41,7 +43,7 @@ public class MainController extends HttpServlet {
 
         //Throw request and response objects to jsp page (MVC pattern)
         RequestDispatcher dispatcher =
-                getServletContext().getRequestDispatcher("/jsp/" + page + ".jsp");
+                getServletContext().getRequestDispatcher(JSP_PATH + page + ".jsp");
         dispatcher.forward(request, response);
     }
 

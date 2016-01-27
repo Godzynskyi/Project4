@@ -14,7 +14,7 @@
                     <a href="/page/catalog">Catalog</a>
                 </td>
                 <td>
-                    <a href="/conditions.jsp">Conditions</a>
+                    <a href="/page/conditions">Conditions</a>
                 </td>
                 <td>
                     <a href="/page/admin/repair">Repair car</a>
@@ -37,7 +37,7 @@
                     <a href="/page/catalog">Catalog</a>
                 </td>
                 <td>
-                    <a href="/conditions.jsp">Conditions</a>
+                    <a href="/page/conditions">Conditions</a>
                 </td>
                 <td>
                     <a href="/page/login">Login</a>

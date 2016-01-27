@@ -3,6 +3,7 @@ package com.godzynskyi.controller;
 
 import com.godzynskyi.annotation.RequestMapper;
 import com.godzynskyi.command.Command;
+import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
@@ -18,7 +19,7 @@ import java.util.Set;
  * This class help us to get Commands from particular package.
  */
 public class AnnotationCommands {
-
+    private static final Logger logger = Logger.getLogger(AnnotationCommands.class);
 
 
     /**
@@ -44,14 +45,9 @@ public class AnnotationCommands {
                     Constructor con = c.getConstructor();
                     Command command = (Command) con.newInstance();
                     result.put(s, command);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                } catch (NoSuchMethodException|InvocationTargetException
+                        |InstantiationException|IllegalAccessException e) {
+                    logger.error(e);
                 }
             }
         }

@@ -13,6 +13,7 @@ public class Config {
     public static final String CHILD_CHAIR_PRICE = "CHILD_CHAIR_PRICE";
     public static final String GPS_PRICE = "GPS_PRICE";
     public static final String DOMEN = "DOMEN";
+    public static final String JSP_PATH = "JSP_PATH";
 
 
     private Config() {}
