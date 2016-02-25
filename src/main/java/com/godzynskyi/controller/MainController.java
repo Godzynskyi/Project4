@@ -23,18 +23,7 @@ public class MainController extends HttpServlet {
     private static final String JSP_PATH = Config.getProperty(Config.JSP_PATH);
 
     @Override
-    protected void doPost(HttpServletRequest req,
-                          HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req,
-                         HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = null;
 
         //Getting particular Command Object, from Request

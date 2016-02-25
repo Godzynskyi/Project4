@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css"/>
 </head>
 <body>
-<%@include file="/jsp/user/menu_user.jsp"%>
+<%@include file="user/menu_user.jsp"%>
 
 <h1>This is the Main Page</h1>
 
